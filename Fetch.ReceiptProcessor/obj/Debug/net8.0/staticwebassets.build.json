@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "zUUmEdBaKH47n2jboIeEGNZUf9+TTsplAXplCycwF4s=",
+  "Source": "Fetch.ReceiptProcessor",
+  "BasePath": "_content/Fetch.ReceiptProcessor",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
