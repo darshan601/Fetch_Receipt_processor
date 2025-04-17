@@ -24,11 +24,11 @@ public class ReceiptProcessorWorker:BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        logger.LogInformation("Starting receipt processor worker...............");
+        // logger.LogInformation("Starting receipt processor worker...............");
         while (!stoppingToken.IsCancellationRequested)
         {
             var receiptId =await queue.DequeueAsync(stoppingToken);
-            logger.LogInformation($"receipt id: {receiptId}.............");
+            // logger.LogInformation($"receipt id: {receiptId}.............");
 
             if (receiptId != Guid.Empty)
             {
@@ -42,7 +42,7 @@ public class ReceiptProcessorWorker:BackgroundService
                         receipt.Points = points;
                         receipt.Status = ProcessingStatus.Completed;
                         
-                        logger.LogInformation($"Updating the Receipt Processing Status: {receipt.Status}");
+                        // logger.LogInformation($"Updating the Receipt Processing Status: {receipt.Status}");
                         
                         storage.UpdateReceipts(receipt);
                         

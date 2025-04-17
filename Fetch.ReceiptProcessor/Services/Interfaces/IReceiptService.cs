@@ -6,6 +6,7 @@ namespace Fetch.ReceiptProcessor.Services.Interfaces;
 
 public interface IReceiptService
 {
+    
     Receipts CreateReceipt(ReceiptRequest request);
 
     ProcessResponse ToProcessResponse(Receipts receipt);

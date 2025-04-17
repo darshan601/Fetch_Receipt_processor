@@ -6,6 +6,7 @@ using Fetch.ReceiptProcessor.Services.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 
+
 // Add services to the container.
 builder.Services.AddSingleton<IPointsServiceAsync, PointsServiceAsync>();
 builder.Services.AddSingleton<IReceiptStorage, ReceiptStorage>();
@@ -15,6 +16,7 @@ builder.Services.AddSingleton<ILogger, Logger<PointsServiceAsync>>();
 builder.Services.AddSingleton<ILogger, Logger<ReceiptsController>>();
 builder.Services.AddSingleton<ILogger, Logger<ReceiptProcessorWorker>>();
 builder.Services.AddSingleton<IReceiptQueue, ReceiptQueue>();
+builder.Services.AddSingleton<IValidationService, ValidationService>();
 
 builder.Services.AddHostedService<ReceiptProcessorWorker>();
 

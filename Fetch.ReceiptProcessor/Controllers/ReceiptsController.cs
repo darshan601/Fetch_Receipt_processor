@@ -25,15 +25,18 @@ public class ReceiptsController:ControllerBase
     private readonly ILogger<ReceiptsController> logger;
     
     private readonly IReceiptQueue queue;
+    
+    private readonly IValidationService validationService;
 
     public ReceiptsController(IReceiptStorage receiptStorage, IReceiptService receiptService, IPointsServiceAsync pointsService, 
-        ILogger<ReceiptsController> logger, IReceiptQueue queue)
+        ILogger<ReceiptsController> logger, IReceiptQueue queue, IValidationService validationService)
     {
         this.receiptStorage = receiptStorage;
         this.pointsServiceAsync = pointsService;
         this.receiptService = receiptService;
         this.logger = logger;
         this.queue = queue;
+        this.validationService = validationService;
     }
 
     [HttpPost("process")]
@@ -42,11 +45,16 @@ public class ReceiptsController:ControllerBase
         // var stopwatch = Stopwatch.StartNew();
         
         
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
+        // if (!ModelState.IsValid)
+        // {
+        //     return BadRequest(ModelState);
+        // }
 
+        if (!await validationService.ValidateRequestAsync(request))
+        {
+            return BadRequest(new { Error = "Invalid input format." });
+        }
+        
         try
         {
             var serializedRequest = JsonSerializer.Serialize(request);

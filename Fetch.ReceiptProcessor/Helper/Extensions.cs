@@ -11,7 +11,7 @@ public class Extensions
         {
             var bytes= Encoding.UTF8.GetBytes(input);
             var hashBytes = sha.ComputeHash(bytes);
-            return Convert.ToBase64String(hashBytes);
+            return Convert.ToHexString(hashBytes);
         }
     }
 }

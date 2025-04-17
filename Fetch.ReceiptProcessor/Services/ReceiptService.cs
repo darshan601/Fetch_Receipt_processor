@@ -7,6 +7,7 @@ namespace Fetch.ReceiptProcessor.Services;
 
 public class ReceiptService:IReceiptService
 {
+
     public Receipts CreateReceipt(ReceiptRequest request)
     {
         return new Receipts

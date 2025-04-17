@@ -33,4 +33,3 @@
 /Users/darshanuttammistry/Developer/projects/Fetch/Fetch.ReceiptProcessor/obj/Debug/net8.0/Fetch.ReceiptProcessor.pdb
 /Users/darshanuttammistry/Developer/projects/Fetch/Fetch.ReceiptProcessor/obj/Debug/net8.0/Fetch.ReceiptProcessor.genruntimeconfig.cache
 /Users/darshanuttammistry/Developer/projects/Fetch/Fetch.ReceiptProcessor/obj/Debug/net8.0/ref/Fetch.ReceiptProcessor.dll
-/Users/darshanuttammistry/Developer/projects/Fetch/Fetch.ReceiptProcessor/bin/Debug/net8.0/Newtonsoft.Json.dll
