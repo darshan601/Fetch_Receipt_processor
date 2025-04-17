@@ -7,6 +7,6 @@ public interface IValidationService
     Task<bool> ValidateRequestAsync(ReceiptRequest request);
 
     Task<bool> ValidateRemainingAsync(ReceiptRequest request);
-    
-    
+
+    bool IsValidGuid(string id);
 }

@@ -77,5 +77,11 @@ public class ValidationService:IValidationService
                decimal.TryParse(item.Price, NumberStyles.AllowDecimalPoint,
                    CultureInfo.InvariantCulture, out _);
     }
+    
+    public bool IsValidGuid(string id)
+    {
+        return Guid.TryParse(id, out _);
+    }
 
 }
+

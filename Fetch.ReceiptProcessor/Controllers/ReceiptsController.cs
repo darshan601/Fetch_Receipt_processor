@@ -94,12 +94,20 @@ public class ReceiptsController:ControllerBase
 
 
     [HttpGet("{id}/points")]
-    public async Task<ActionResult> GetPoints(Guid id)
+    public async Task<ActionResult> GetPoints(string id)
     {
         
         // var stopwatch = Stopwatch.StartNew();
         // logger.LogInformation($"Getting receipt from Storage");
-        var receipts = await Task.FromResult(receiptStorage.GetReceipts(id));
+
+        if (!validationService.IsValidGuid(id))
+        {
+            return BadRequest("Invalid GUID format.");
+        }
+        
+        var parsedId=Guid.Parse(id);
+        
+        var receipts = await Task.FromResult(receiptStorage.GetReceipts(parsedId));
 
         if (receipts==null)
         {
