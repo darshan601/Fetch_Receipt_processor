@@ -1,0 +1,21 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  fetch.receiptprocessor:
+    build:
+      context: "/Users/darshanuttammistry/Developer/projects/Fetch"
+      dockerfile: "Fetch.ReceiptProcessor/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/Fetch.ReceiptProcessor.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "fetch.receiptprocessor:dev"
+    ports: []
+    volumes:
+    - "/Users/darshanuttammistry/Developer/projects/Fetch/Fetch.ReceiptProcessor:/app:rw"
+    - "/Users/darshanuttammistry/Developer/projects/Fetch:/src:rw"
+    - "/Users/darshanuttammistry/.nuget/packages:/home/app/.nuget/packages"
+    working_dir: "/app"
