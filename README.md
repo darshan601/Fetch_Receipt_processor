@@ -105,6 +105,7 @@ Returns the number of points awarded for the given receipt ID.
 
 ## 🏗 Architecture & Components
 
+![Architecture Diagram](./Fetch_Architecture Diagram.jpg)
 ### Components Overview:
 
 - **Receipts Controller**  
