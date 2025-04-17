@@ -14,10 +14,16 @@ public class ReceiptQueue:IReceiptQueue
         this.channel = Channel.CreateUnbounded<Guid>();
     }
     
-    public async Task EnqueueAsync(Guid receiptId)
+    public Task EnqueueAsync(Guid receiptId)
     {
         // queue.Enqueue(receiptId);
-        await channel.Writer.WriteAsync(receiptId);
+        if (!channel.Writer.TryWrite(receiptId))
+        {
+            // optional: log backpressure, or handle retries
+        }
+
+        return Task.CompletedTask;
+        // await channel.Writer.WriteAsync(receiptId);
     }
 
     public async Task<Guid> DequeueAsync(CancellationToken cancellationToken)

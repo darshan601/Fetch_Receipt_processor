@@ -13,10 +13,10 @@ public class ReceiptService:IReceiptService
         {
             ReceiptId = Guid.NewGuid(),
             Retailer = request.Retailer.Trim(),
-            PurchaseDate = DateTimeOffset.Parse(request.PurchaseDate),
-            PurchaseTime = TimeSpan.Parse(request.PurchaseTime),
-            ItemsList = request.ItemsList.Select(ConvertItems).ToList(),
-            Total = decimal.Parse(request.Total)
+            PurchaseDate = DateTimeOffset.TryParse(request.PurchaseDate, out var pd)? pd: default,
+            PurchaseTime = TimeSpan.TryParse(request.PurchaseTime,out var pt) ? pt : default,
+            ItemsList = request.ItemsList.Select(ConvertItems).ToList() ?? new List<Items>(),
+            Total = decimal.TryParse(request.Total, out var t)? t:0m
         };
     }
 

@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using System.Text.Json.Serialization;
+using System.Text.Json;
 using Fetch.ReceiptProcessor.Entities;
 using Fetch.ReceiptProcessor.Helper;
 using Fetch.ReceiptProcessor.Models;
@@ -8,7 +8,6 @@ using Fetch.ReceiptProcessor.Services;
 using Fetch.ReceiptProcessor.Services.Interfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Exception = System.Exception;
 
 namespace Fetch.ReceiptProcessor.Controllers;
@@ -40,7 +39,7 @@ public class ReceiptsController:ControllerBase
     [HttpPost("process")]
     public async Task<ActionResult<ProcessResponse>> ProcessReceipt([FromBody] ReceiptRequest request)
     {
-        var stopwatch = Stopwatch.StartNew();
+        // var stopwatch = Stopwatch.StartNew();
         
         
         if (!ModelState.IsValid)
@@ -50,13 +49,12 @@ public class ReceiptsController:ControllerBase
 
         try
         {
-            var serializedRequest = JsonConvert.SerializeObject(request);
+            var serializedRequest = JsonSerializer.Serialize(request);
             var requestHash=Extensions.ComputeHash(serializedRequest);
             
             if (receiptStorage.ContainsHash(requestHash))
             {
-                logger.LogInformation($"Receipt exists in Hash Dictionary, returning the same");
-                logger.LogInformation($"Latency: {stopwatch.ElapsedMilliseconds} ms");
+                // logger.LogInformation($"Receipt exists in Hash Dictionary, returning the same");
                 return Ok(new ProcessResponse{ Id = receiptStorage.GetByHash(requestHash) });
             }
             
@@ -65,22 +63,22 @@ public class ReceiptsController:ControllerBase
             receipts.Status = ProcessingStatus.Pending;
             
             // receipts.Points=await pointsServiceAsync.calculatePointsAsync(receipts);
-            logger.LogInformation($"Adding receipt into Dictionaries");
+            // logger.LogInformation($"Adding receipt into Dictionaries");
             receiptStorage.StoreReceipt(receipts);
             receiptStorage.StoreHash(requestHash, receipts.ReceiptId);
             
-            logger.LogInformation($"Pushing Receipt Id:{receipts.ReceiptId} into Queue");
+            // logger.LogInformation($"Pushing Receipt Id:{receipts.ReceiptId} into Queue");
             queue.EnqueueAsync(receipts.ReceiptId);
         
-            stopwatch.Stop();
-            logger.LogInformation($"Latency: {stopwatch.ElapsedMilliseconds} ms");
+            // stopwatch.Stop();
+            // logger.LogInformation($"Latency: {stopwatch.ElapsedMilliseconds} ms");
             return Ok(receiptService.ToProcessResponse(receipts));
         }
         catch(Exception e)
         {
             logger.LogError(e, e.Message);
-            stopwatch.Stop();
-            logger.LogInformation($"Latency: {stopwatch.ElapsedMilliseconds} ms");
+            // stopwatch.Stop();
+            // logger.LogInformation($"Latency: {stopwatch.ElapsedMilliseconds} ms");
             return StatusCode(500, "Error Processing Receipt");
         }
         
@@ -91,18 +89,18 @@ public class ReceiptsController:ControllerBase
     public async Task<ActionResult> GetPoints(Guid id)
     {
         
-        var stopwatch = Stopwatch.StartNew();
-        logger.LogInformation($"Getting receipt from Storage");
+        // var stopwatch = Stopwatch.StartNew();
+        // logger.LogInformation($"Getting receipt from Storage");
         var receipts = await Task.FromResult(receiptStorage.GetReceipts(id));
 
         if (receipts==null)
         {
             return NotFound(new {Error = "Receipt not found"});
         }
-        stopwatch.Stop();
-        logger.LogInformation($"Latency: {stopwatch.ElapsedMilliseconds} ms");
+        // stopwatch.Stop();
+        // logger.LogInformation($"Latency: {stopwatch.ElapsedMilliseconds} ms");
         
-        logger.LogInformation($"Checking status of the receipt and returning response");
+        // logger.LogInformation($"Checking status of the receipt and returning response");
         return receipts.Status switch
         {
             ProcessingStatus.Completed => Ok(receiptService.ToPointsResponse(receipts)),
