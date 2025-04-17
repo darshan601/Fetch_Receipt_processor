@@ -41,7 +41,7 @@ export default function () {
 
     if (isPost) {
         // POST
-        const url = 'http://host.docker.internal:5232/receipts/process';
+        const url = 'http://host.docker.internal:18080/receipts/process';
 
         const payload = JSON.stringify({
             retailer: randomRetailer(),
@@ -76,7 +76,7 @@ export default function () {
         // GET
         if (receiptIds.length > 0) {
             const receiptId = receiptIds[Math.floor(Math.random() * receiptIds.length)];
-            const url = `http://host.docker.internal:5232/receipts/${receiptId}/points`;
+            const url = `http://host.docker.internal:18080/receipts/${receiptId}/points`;
 
             const res = http.get(url);
 

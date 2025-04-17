@@ -5,8 +5,6 @@ using Fetch.ReceiptProcessor.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-
 // Add services to the container.
 builder.Services.AddSingleton<IPointsServiceAsync, PointsServiceAsync>();
 builder.Services.AddSingleton<IReceiptStorage, ReceiptStorage>();
@@ -37,8 +35,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/swagger/index.html");
+    return Task.CompletedTask;
+});
 
 app.UseAuthorization();
 
